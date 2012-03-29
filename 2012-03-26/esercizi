@@ -1,17 +1,78 @@
-//ES 1
-var d1 = DOMAIN ([[1, 5]])([4]);
-var d2 = DOMAIN ([[1,5], [1, 3]])([4, 2]);
-var d3 = DOMAIN ([[1,5], [1, 3], [2, 3]])([4, 2, 1]);
+//UTILITY 
 
-var domain = DOMAIN ([[0,10]]) ([10]);
+//RETTA TRASLATA DI 1
+var d = DOMAIN ([[1, 10]])([4]);
 var mapping = function (p){
 	var u = p[0];
 	return [u, 1];
 }
-var mapped = MAP (mapping)(domain);
-//ES 2
-var mappingBisettrice = function (p){
-  var u = p[0];
+var mapped = MAP (mapping)(d);
+DRAW(mapped);
+
+//BISETTRICE
+var mapping = function(p){
+	var u = p[0];
 	return [u, u];
 }
-var mapped2 = MAP (mappingBisettrice)(domain);
+
+//SINUSOIDE
+var d = DOMAIN ([[0, 20*PI]])([30]);
+var mapping = function(p){
+	var u = p[0];
+	return [u, SIN(u)];
+}
+var mapped = MAP (mapping)(d);
+DRAW(mapped);
+
+//CERCHIO
+var drawCircle = function (r, n){
+	var d = DOMAIN ([[0, 20*PI]])([n]);
+	var mapping = function(p){
+		var u = p[0];
+		return [COS(u), SIN(u)];
+	}
+	var mapped = MAP (mapping)(d);
+	DRAW(mapped);
+}
+
+//CILINDRO
+var drawCylinder = function (r, h, n, m, color){
+	var d = DOMAIN ([[0, 2*PI], [0, h]])([n, m]);
+	var mapping = function(p){
+		var u = p[0];
+		var v = p[1];
+		return [r*COS(u), r*SIN(u), v];
+	}
+	var mapped = MAP (mapping)(d);
+	COLOR(color)(mapped);
+	DRAW(mapped);
+}
+
+//SFERA
+var drawSphere = function (r, n){
+	var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+	var mapping = function(p){
+		var beta = p[0];
+		var alfa = p[1];
+		return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+	}
+	var mapped = MAP (mapping)(d);
+	COLOR([1, 0, 1])(mapped);
+	DRAW(mapped);
+}
+
+//SEMISFERA
+var drawSemiSphere = function (r, n){
+	var d = DOMAIN ([[0, 2*PI], [0, PI]])([n, n]);
+	var mapping = function(p){
+		var beta = p[0];
+		var alfa = p[1];
+		return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+	}
+	var mapped = MAP (mapping)(d);
+	COLOR([1, 0, 1])(mapped);
+	DRAW(mapped);
+}
+
+//var c = drawSphere (10, 70);
+
