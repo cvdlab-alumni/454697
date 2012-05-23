@@ -1,6 +1,4 @@
 //DISTRIBUTORE DI CARAMELLE 
-//il modello non è completo causa impiego agli internazionali di tennis, l'idea era di riempirlo di caramelle, ma ce ne sono solo 3
-
 var domain1 = INTERVALS(1)(30);
 var domain2 = DOMAIN([[0,1],[0,1]])([20,30]);
 var domain3 = DOMAIN([[0,1],[0,1],[0,1]])([20,10,5]);
@@ -177,6 +175,33 @@ var whole1 = T([2])([0.5])(whole);
 
 DRAW(COLOR([1, 0, 0])(whole1));
 
+//Insert coins
+
+var controlpointsFronte = [[0,0.05, 0],[0,-0.05, 0],[0, 0.4, -0.5],[0,0.4, 0.5]]; 
+var cFronte = CUBIC_HERMITE(S0)(controlpointsFronte); 
+//var curveFronte = MAP(cFronte)(domain1); 
+//var curveFronte1 = T([2])([0.8])(curveFronte);
+var controlpointsFronteS = [[0,0.05, 0],[0,-0.05, 0],[0, 0.2, -0.25],[0,0.2, 0.25]]; 
+var cFronteS = CUBIC_HERMITE(S0)(controlpointsFronteS); 
+//var curveFronteS = MAP(cFronteS)(domain1); 
+//var curveFronteS1 = T([2])([0.8])(curveFronteS);
+var controlpointsRetro = [[0.03,0.05, 0],[0.03,-0.05, 0],[0, 0.4, -0.5],[0,0.4, 0.5]]; 
+var cRetro = CUBIC_HERMITE(S0)(controlpointsRetro); 
+//var curveRetro = MAP(cRetro)(domain1); 
+//var curveRetro1 = T([2])([0.8])(curveRetro);
+var s1F = BEZIER(S1)([cFronte, cRetro])
+var surf1F = MAP(s1F)(domain2);
+//DRAW(surf1F);
+var controlpointsRetroS = [[0.03,0.05, 0],[0.03,-0.05, 0],[0, 0.2, -0.25],[0,0.2, 0.25]]; 
+var cRetroS = CUBIC_HERMITE(S0)(controlpointsRetroS); 
+//var curveRetroS = MAP(cRetroS)(domain1); 
+//var curveRetroS1 = T([2])([0.8])(curveRetroS);
+var s1R = BEZIER(S1)([cRetro, cRetroS])
+var surf1R = MAP(s1R)(domain2);
+//DRAW(surf1R);
+var insertCoins = STRUCT([surf1F, surf1R]);
+DRAW(T([2])([0.8])(COLOR([1, 0, 0])(insertCoins)));
+
 
 // uscita caramelle
 
@@ -202,6 +227,21 @@ var s2 = BEZIER(S1)([cX, cZ])
 var surf2 = MAP(s2)(domain2);
 DRAW(COLOR([1, 0, 0])(surf2));
 
+var controlpointsA = [[0,0.08, 0],[0,-0.08, 0],[0, 0, 0.45],[0,0, -0.45]]; 
+var cA = CUBIC_HERMITE(S0)(controlpointsA); 
+var curveA = MAP(cA)(domain1); 
+DRAW(curveA);
+
+var controlpointsB = [[0.06, 0.08, 0],[0.06, -0.08, 0],[0, 0, 0.45],[0,0, -0.45]]; 
+var cB = CUBIC_HERMITE(S0)(controlpointsB); 
+var curveB = MAP(cB)(domain1); 
+DRAW(curveB);
+
+var sAB = BEZIER(S1)([cA, cB])
+var surfAB = MAP(sAB)(domain2);
+DRAW(COLOR([1, 0, 0])(surfAB));
+
+
 //caramelle
 var SphereRosa = function (r, n){
   var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
@@ -214,7 +254,7 @@ var SphereRosa = function (r, n){
   return (COLOR([0.5, 0, 0.5])(mapped));
   
 }
-var SphereMagenta = function (r, n){
+var SphereCiano = function (r, n){
   var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
   var mapping = function(p){
     var beta = p[0];
@@ -226,7 +266,75 @@ var SphereMagenta = function (r, n){
   
 }
 
-var c1 = T([0, 2])([0.07, 0.05])(SphereRosa (0.05, 50));
+var SphereVerde = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([0, 1, 0])(mapped));
+  
+}
+
+var SphereGialla = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([0, 0.5, 0.5])(mapped));
+  
+}
+var SphereArancione = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([1, 0.6, 0])(mapped));
+  
+}
+var SphereIndaco = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([49/255, 0, 98/255])(mapped));
+  
+}
+var SphereForesta = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([34/255, 139/255, 34/255])(mapped));
+  
+}
+
+var SphereAzzurra = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([0, 127/255, 255/255])(mapped));
+  
+}
+var c1 = T([0, 2])([0.1, 0.05])(SphereRosa (0.05, 50));
 DRAW(c1);
 var c2 = T([0, 2])([-0.5, 1])(SphereRosa (0.05, 50));
 DRAW(c2);
@@ -234,5 +342,55 @@ var c3 = T([0, 2])([-0.3, 1])(SphereRosa (0.05, 50));
 DRAW(c3);
 var c3 = T([0, 2])([-0.3, 1])(SphereRosa (0.05, 50));
 DRAW(c3);
-var c4 = T([0,1, 2])([-0.4,0.15, 1])(SphereMagenta (0.05, 50));
+var c4 = T([0,1, 2])([-0.4,0.15, 1])(SphereCiano (0.05, 50));
 DRAW(c4);
+var c5 = T([0,1, 2])([-0.4,-0.15, 1])(SphereCiano (0.05, 50));
+DRAW(c5);
+var c6 = T([0,1, 2])([-0.4,-0, 1])(SphereGialla (0.05, 50));
+DRAW(c6);
+var c7 = T([0,1, 2])([-0.25,-0.1, 1])(SphereVerde (0.05, 50));
+DRAW(c7);
+var c8 = T([0,1, 2])([-0.25,0.1, 1])(SphereCiano (0.05, 50));
+DRAW(c8);
+var c9 = T([0,1, 2])([-0.5,0.1, 1])(SphereGialla (0.05, 50));
+DRAW(c9);
+var c10 = T([0,1, 2])([-0.5,-0.1, 1])(SphereGialla (0.05, 50));
+DRAW(c10);
+var c11 = T([0,1, 2])([-0.18,-0.1, 1.08])(SphereArancione (0.05, 50));
+DRAW(c11);
+var c12 = T([0,1, 2])([-0.3,-0.1, 1.08])(SphereArancione (0.05, 50));
+DRAW(c12);
+var c13 = T([0,1, 2])([-0.3,-0.2, 1.08])(SphereGialla (0.05, 50));
+DRAW(c13);
+var c14 = T([0,1, 2])([-0.4,-0.15, 1.08])(SphereVerde (0.05, 50));
+DRAW(c14);
+var c15 = T([0,1, 2])([-0.4,-0.05, 1.08])(SphereRosa (0.05, 50));
+DRAW(c15);
+var c16 = T([0,1, 2])([-0.3,0.05, 1.08])(SphereIndaco(0.05, 50));
+DRAW(c16);
+var c17 = T([0,1, 2])([-0.19,0.1, 1.08])(SphereIndaco(0.05, 50));
+DRAW(c17);
+var c18 = T([0,1, 2])([-0.19,0, 1.08])(SphereCiano(0.05, 50));
+DRAW(c18);
+var c19 = T([0,1, 2])([-0.5,-0.1, 1.08])(SphereIndaco(0.05, 50));
+DRAW(c19);
+var c20 = T([0,1, 2])([-0.3,0.15, 1.08])(SphereRosa(0.05, 50));
+DRAW(c20);
+var c21 = T([0,1, 2])([-0.5,0.14, 1.08])(SphereForesta(0.05, 50));
+DRAW(c21);
+var c22 = T([0,1, 2])([-0.4,0.11, 1.08])(SphereGialla(0.05, 50));
+DRAW(c22);
+var c23 = T([0,1, 2])([-0.41,0.2, 1.08])(SphereAzzurra(0.05, 50));
+DRAW(c23);
+var c24 = T([0,1, 2])([-0.55,0.03, 1.08])(SphereAzzurra(0.05, 50));
+DRAW(c24);
+var c25 = T([0,1, 2])([-0.225,0, 1.17])(SphereAzzurra(0.05, 50));
+DRAW(c25);
+var c26 = T([0,1, 2])([-0.15,-0.02, 1.17])(SphereForesta(0.05, 50));
+DRAW(c26);
+var c27 = T([0,1, 2])([-0.15,-0.12, 1.16])(SphereRosa(0.05, 50));
+DRAW(c27);
+var c28 = T([0,1, 2])([-0.23,-0.19, 1.15])(SphereCiano(0.05, 50));
+DRAW(c28);
+var c29 = T([0,1, 2])([-0.25,-0.09, 1.17])(SphereVerde(0.05, 50));
+DRAW(c29);
