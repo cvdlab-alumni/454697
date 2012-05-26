@@ -41,6 +41,10 @@ var c1s= CUBIC_HERMITE(S0)(controlpoints1s);
 var curve1s = MAP(c1s)(domain1); 
 //DRAW(COLOR([1, 0, 0])(curve1s)); 
 
+var s11s = BEZIER(S1)([c1, c1s])
+var surfL = MAP(s11s)(domain2);
+var surfaceL = COLOR([153/255, 17/255, 153/255])(surfL);
+
 
 var controlpoints2 = [[-0.15,0, 1],[-0.6,0, 1],[0, -0.9, 0],[0,0.9, 0]]; 
 var c2 = CUBIC_HERMITE(S0)(controlpoints2); 
@@ -133,12 +137,10 @@ var appoggio = STRUCT([surf1M, surf2M, surf3M]);
 //DRAW(appoggio);
 
 
-var p0G = [[0.08, 0, 0], [0.08, 0.02, 0], [0.07, 0.05, 0], [0.06, 0.03, 0], [0.04, 0.005, 0],[0.04, 0.005, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],[0.08, 0, 0]];
-var p0bG = [[-0.08, 0, 0], [-0.08, 0.02, 0], [-0.07, 0.05, 0], [-0.06, 0.03, 0], [-0.04, 0.005, 0],[-0.04, 0.005, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],[0.08, 0, 0]];
-var p1G = [[0.08, 0, 0.04], [0.08, 0.02, 0.04], [0.07, 0.05, 0.04], [0.06, 0.03, 0.04], [0.04, 0.005, 0.04],[0.04, 0.005, 0.04], [0, 0, 0.04], [0, 0, 0.04], [0, 0, 0.04],[0.08, 0, 0.04]];
-var p1bG = [[-0.08, 0, 0.04], [-0.08, 0.02, 0.04], [-0.07, 0.05, 0.04], [-0.06, 0.03, 0.04], [-0.04, 0.005, 0.04],[-0.04, 0.005, 0.04], [0, 0, 0.04], [0, 0, 0.04], [0, 0, 0.04],[0.08, 0, 0.04]];
-
-//var p1 = [[0, 0.2, 0], [-0.2, 0.2, 1], [-0.2, 0.2, 1], [-0.2, 0.2, 1],[-0.19, 0.2, 1], [-0.17, 0.2, 1], [-0.15, 0.2, 1], [-0.1, 0.2, 1], [-0.05, 0.2, 1], [-0.01, 0.2, 1],[0, 0.2, 1], [0, 0.2, 1], [0, 0.2, 1], [0, 0.2, 1], [0, 0.2, 0], [0, 0.2, 0]];
+var p0G = [[0.13, 0, 0], [0.13, 0.04, 0], [0.1, 0.07, 0], [0.08, 0.05, 0], [0.06, 0.005, 0],[0.04, 0.005, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],[0.13, 0, 0]];
+var p0bG = [[-0.13, 0, 0], [-0.13, 0.04, 0], [-0.1, 0.07, 0], [-0.08, 0.05, 0], [-0.06, 0.005, 0],[-0.04, 0.005, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0],[-0.13, 0, 0]];
+var p1G = [[0.13, 0, 0.04], [0.13, 0.04, 0.04], [0.1, 0.07, 0.04], [0.08, 0.05, 0.04], [0.06, 0.005, 0.04],[0.04, 0.005, 0.04], [0, 0, 0.04], [0, 0,0.04], [0, 0, 0.04],[0.13, 0, 0.04]];
+var p1bG = [[-0.13, 0, 0.04], [-0.13, 0.04, 0.04], [-0.1, 0.07, 0.04], [-0.08, 0.05, 0.04], [-0.06, 0.005, 0.04],[-0.04, 0.005, 0.04], [0, 0, 0.04], [0, 0,0.04], [0, 0, 0.04],[-0.13, 0, 0.04]];
 
 var c0G = BEZIER(S0)(p0G);
 var c0bG = BEZIER(S0)(p0bG);
@@ -176,8 +178,9 @@ var insert2G = MAP(lateral2G)(domain2);
 //DRAW(COLOR([1, 1, 1])(insert2));
 
 var gir = STRUCT([surface1G, surface1bG, surface3bG, surface4bG, insert1G, insert2G]);
-var girevo = R([0, 1])([3*PI/2])(gir);
-var girevole = T([0, 2])([0.041, 0.02])(girevo);
+var girevo = R([0, 1, 2])([3*PI/2])(gir);
+var girevol = R([1, 2])([PI/4])(girevo);
+var girevole = T([0, 1, 2])([0.042, 0.02, 0.03])(girevol);
 
 var whole = STRUCT([girevole, appoggio]);
 var whole1 = T([2])([0.5])(whole);
@@ -256,6 +259,11 @@ var sAB = BEZIER(S1)([cA, cB])
 var surfAB = MAP(sAB)(domain2);
 var surfaceH = COLOR([139/255, 0, 1])(surfAB);
 //DRAW(COLOR([1, 0, 0])(surfAB));
+
+var sYB = BEZIER(S1)([cY, cB])
+var surfYB = MAP(sYB)(domain2);
+var surfaceM = COLOR([153/255, 17/255, 153/255])(surfYB);
+
 
 
 //caramelle
@@ -350,6 +358,17 @@ var SphereAzzurra = function (r, n){
   return (COLOR([0, 127/255, 255/255])(mapped));
   
 }
+var SphereFragola = function (r, n){
+  var d = DOMAIN ([[0, 2*PI], [0, 2*PI]])([n, n]);
+  var mapping = function(p){
+    var beta = p[0];
+    var alfa = p[1];
+    return [r*COS(alfa)*COS(beta), r*COS(alfa)*SIN(beta), r*SIN(alfa)];
+  }
+  var mapped = MAP (mapping)(d);
+  return (COLOR([206/255, 48/255, 24/255])(mapped));
+  
+}
 var cm1 = T([0, 2])([0.1, 0.05])(SphereCiano (0.05, 50));
 var cm2 = T([0, 2])([-0.5, 1])(SphereRosa (0.05, 50));
 var cm3 = T([0, 2])([-0.3, 1])(SphereRosa (0.05, 50));
@@ -375,12 +394,32 @@ var cm21 = T([0,1, 2])([-0.5,0.14, 1.08])(SphereForesta(0.05, 50));
 var cm22 = T([0,1, 2])([-0.4,0.11, 1.08])(SphereGialla(0.05, 50));
 var cm23 = T([0,1, 2])([-0.41,0.2, 1.08])(SphereAzzurra(0.05, 50));
 var cm24 = T([0,1, 2])([-0.55,0.03, 1.08])(SphereAzzurra(0.05, 50));
-var cm25 = T([0,1, 2])([-0.225,0, 1.17])(SphereAzzurra(0.05, 50));
+var cm25 = T([0,1, 2])([-0.228,0.02, 1.17])(SphereAzzurra(0.05, 50));
 var cm26 = T([0,1, 2])([-0.15,-0.02, 1.17])(SphereForesta(0.05, 50));
 var cm27 = T([0,1, 2])([-0.15,-0.12, 1.16])(SphereRosa(0.05, 50));
 var cm28 = T([0,1, 2])([-0.23,-0.19, 1.15])(SphereCiano(0.05, 50));
 var cm29 = T([0,1, 2])([-0.25,-0.09, 1.17])(SphereVerde(0.05, 50));
-var cm30 = T([0,1, 2])([-0.25,-0.09, 1.17])(SphereVerde(0.05, 50));
-DRAW(cm30);
-var caramelle = STRUCT([cm1,cm2, cm3, cm4, cm5, cm6, cm7, cm8, cm9, cm10, cm11, cm12, cm13, cm14, cm15, cm16, cm17, cm18, cm19, cm20, cm21, cm22, cm23, cm24, cm25, cm26, cm27, cm28, cm29]);
-var scmodel = STRUCT([surfaceA, surfaceB, surfaceC, surfaceD, surfaceE, contenitore, manopolaGirevole, insertCoins, surfaceF, surfaceG, surfaceH, caramelle]);
+var cm30 = T([0,1, 2])([-0.4,-0.2, 1.17])(SphereAzzurra(0.05, 50));
+var cm31 = T([0,1, 2])([-0.31,-0.23, 1.17])(SphereFragola(0.05, 50));
+var cm32 = T([0,1, 2])([-0.5,-0.22, 1.17])(SphereGialla(0.05, 50));
+var cm33 = T([0,1, 2])([-0.58,-0.13, 1.17])(SphereArancione(0.05, 50));
+var cm34 = T([0,1, 2])([-0.58,-0.05, 1.08])(SphereFragola(0.05, 50));
+var cm35 = T([0,1, 2])([-0.4,-0.05, 1.17])(SphereFragola(0.05, 50));
+var cm36 = T([0,1, 2])([-0.53,-0.05, 1.17])(SphereRosa(0.05, 50));
+var cm37 = T([0,1, 2])([-0.6, 0.05, 1.17])(SphereVerde(0.05, 50));
+var cm38 = T([0,1, 2])([-0.625, -0.04, 1.17])(SphereCiano(0.05, 50));
+var cm39 = T([0,1, 2])([-0.47, -0.12, 1.17])(SphereCiano(0.05, 50));
+var cm40 = T([0,1, 2])([-0.4, 0.05, 1.17])(SphereForesta(0.05, 50));
+var cm41 = T([0,1, 2])([-0.15, 0.075, 1.17])(SphereFragola(0.05, 50));
+var cm42 = T([0,1, 2])([-0.21, 0.18, 1.15])(SphereArancione(0.05, 50));
+var cm43 = T([0,1, 2])([-0.31, 0.22, 1.15])(SphereRosa(0.05, 50));
+var cm44 = T([0,1, 2])([-0.4, 0.25, 1.16])(SphereVerde(0.05, 50));
+var cm45 = T([0,1, 2])([-0.5, 0.218, 1.16])(SphereIndaco(0.05, 50));
+var cm46 = T([0,1, 2])([-0.58, 0.14, 1.16])(SphereFragola(0.05, 50));
+var cm47 = T([0,1, 2])([-0.5,-0.176, 1.08])(SphereIndaco(0.05, 50));
+
+var caramelle = STRUCT([cm1,cm2, cm3, cm4, cm5, cm6, cm7, cm8, cm9, cm10, cm11, cm12, cm13, cm14, cm15, cm16, cm17, cm18, cm19, cm20, cm21, cm22, cm23, cm24, cm25, cm26, cm27, cm28,
+ cm29, cm30, cm31, cm32, cm33, cm34, cm35, cm36, cm37, cm38, cm39, cm40,
+ cm41, cm42, cm43, cm44, cm45, cm46, cm47]);
+
+var scmodel = STRUCT([surfaceA, surfaceB, surfaceC, surfaceD, surfaceE, contenitore, manopolaGirevole, insertCoins, surfaceF, surfaceG, surfaceH, caramelle, surfaceL, surfaceM]);
